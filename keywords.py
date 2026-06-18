@@ -1,11 +1,30 @@
-# keywords.py
+import re
+from collections import Counter
 
-from rake_nltk import Rake
+STOPWORDS = {
+    "the","a","an","and","or","is","are",
+    "was","were","of","to","in","for",
+    "on","with","by","as","at","that",
+    "this","it","from","be","have","has"
+}
 
 def extract_keywords(text):
 
-    rake = Rake()
+    words = re.findall(
+        r'\w+',
+        text.lower()
+    )
 
-    rake.extract_keywords_from_text(text)
+    filtered = [
+        word for word in words
+        if word not in STOPWORDS
+        and len(word) > 3
+    ]
 
-    return rake.get_ranked_phrases()[:15]
+    freq = Counter(filtered)
+
+    return [
+        word
+        for word,count
+        in freq.most_common(15)
+    ]
