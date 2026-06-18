@@ -6,3 +6,7 @@ nltk
 rake-nltk
 reportlab
 pandas
+nltk
+sumy
+rake-nltk
+reportlab
