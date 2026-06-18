@@ -1,12 +1,3 @@
 streamlit
 pymupdf
-transformers
-torch
-nltk
-rake-nltk
-reportlab
-pandas
-nltk
-sumy
-rake-nltk
 reportlab
