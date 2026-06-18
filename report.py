@@ -1,8 +1,7 @@
-# report.py
-
 from reportlab.platypus import (
     SimpleDocTemplate,
-    Paragraph
+    Paragraph,
+    Spacer
 )
 
 from reportlab.lib.styles import getSampleStyleSheet
@@ -10,40 +9,57 @@ from reportlab.lib.styles import getSampleStyleSheet
 def create_report(summary,
                   keywords):
 
-    pdf = SimpleDocTemplate(
-        "analysis_report.pdf"
-    )
+    filename = "analysis_report.pdf"
+
+    pdf = SimpleDocTemplate(filename)
 
     styles = getSampleStyleSheet()
 
-    content = []
+    elements = []
 
-    content.append(
+    elements.append(
         Paragraph(
-            "<b>Summary</b>",
+            "Research Paper Analysis",
+            styles["Title"]
+        )
+    )
+
+    elements.append(
+        Spacer(1,12)
+    )
+
+    elements.append(
+        Paragraph(
+            "Summary",
             styles["Heading1"]
         )
     )
 
-    content.append(
-        Paragraph(summary,
-                  styles["BodyText"])
+    elements.append(
+        Paragraph(
+            summary,
+            styles["BodyText"]
+        )
     )
 
-    content.append(
+    elements.append(
+        Spacer(1,12)
+    )
+
+    elements.append(
         Paragraph(
-            "<br/><b>Keywords</b>",
+            "Keywords",
             styles["Heading1"]
         )
     )
 
-    content.append(
+    elements.append(
         Paragraph(
             ", ".join(keywords),
             styles["BodyText"]
         )
     )
 
-    pdf.build(content)
+    pdf.build(elements)
 
-    return "analysis_report.pdf"
+    return filename
