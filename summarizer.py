@@ -1,21 +1,22 @@
-# summarizer.py
-
-from transformers import pipeline
-
-summarizer = pipeline(
-    "summarization",
-    model="facebook/bart-large-cnn"
-)
+from sumy.parsers.plaintext import PlaintextParser
+from sumy.nlp.tokenizers import Tokenizer
+from sumy.summarizers.lsa import LsaSummarizer
 
 def summarize_text(text):
 
-    text = text[:3000]
-
-    summary = summarizer(
+    parser = PlaintextParser.from_string(
         text,
-        max_length=200,
-        min_length=50,
-        do_sample=False
+        Tokenizer("english")
     )
 
-    return summary[0]["summary_text"]
+    summarizer = LsaSummarizer()
+
+    summary = summarizer(
+        parser.document,
+        5
+    )
+
+    return " ".join(
+        str(sentence)
+        for sentence in summary
+    )
