@@ -1,26 +1,47 @@
-import nltk
+import re
+from collections import Counter
 
-try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt')
-
-from sumy.parsers.plaintext import PlaintextParser
-from sumy.nlp.tokenizers import Tokenizer
-from sumy.summarizers.lsa import LsaSummarizer
+STOPWORDS = {
+    "the","a","an","and","or","is","are",
+    "was","were","of","to","in","for",
+    "on","with","by","as","at","that",
+    "this","it","from","be","have","has"
+}
 
 def summarize_text(text):
 
-    parser = PlaintextParser.from_string(
-        text,
-        Tokenizer("english")
+    sentences = re.split(r'(?<=[.!?]) +', text)
+
+    words = re.findall(r'\w+', text.lower())
+
+    words = [
+        w for w in words
+        if w not in STOPWORDS
+    ]
+
+    freq = Counter(words)
+
+    sentence_scores = {}
+
+    for sentence in sentences:
+
+        score = 0
+
+        for word in re.findall(
+            r'\w+',
+            sentence.lower()
+        ):
+
+            score += freq.get(word,0)
+
+        sentence_scores[sentence] = score
+
+    ranked = sorted(
+        sentence_scores,
+        key=sentence_scores.get,
+        reverse=True
     )
 
-    summarizer = LsaSummarizer()
+    summary = " ".join(ranked[:5])
 
-    summary = summarizer(parser.document, 5)
-
-    return " ".join(
-        str(sentence)
-        for sentence in summary
-    )
+    return summary
