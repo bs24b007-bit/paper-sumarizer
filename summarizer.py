@@ -1,3 +1,10 @@
+import nltk
+
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
+
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lsa import LsaSummarizer
@@ -11,10 +18,7 @@ def summarize_text(text):
 
     summarizer = LsaSummarizer()
 
-    summary = summarizer(
-        parser.document,
-        5
-    )
+    summary = summarizer(parser.document, 5)
 
     return " ".join(
         str(sentence)
