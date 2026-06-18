@@ -1,10 +1,17 @@
-# paper-sumarizer
-'''What it does
+# AI Research Paper Analyzer
 
-Upload a research paper (PDF) and get:
+Upload research papers in PDF format.
 
-Summary
-Key findings
-Keywords
-Research methodology
-Future work suggestions'''
+Features:
+
+- PDF text extraction
+- Automatic summarization
+- Keyword extraction
+- PDF report generation
+
+Built using:
+
+- Python
+- Streamlit
+- PyMuPDF
+- ReportLab
